@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import { View, WebView } from "react-native";
+import { View, SafeAreaView, Text, TouchableOpacity } from "react-native";
+import { WebView } from "react-native-webview";
 import FastImage from "react-native-fast-image";
-import VideoModal from "@paraboly/react-native-video-modal";
+// import VideoModal from "@paraboly/react-native-video-modal";
+import VideoModal from "./lib/src/VideoModal";
 
 const logo = require("./assets/parabol_logo.png");
 
@@ -15,12 +17,13 @@ export default class App extends Component {
     return (
       <View style={{ width: "100%", height: 200 }}>
         <WebView
+          source={source}
+          useWebKit={true}
           javaScriptEnabled
           domStorageEnabled
           startInLoadingState
-          source={{
-            uri: "your-stream-url"
-          }}
+          originWhitelist={["*"]}
+          allowsInlineMediaPlayback={true}
           style={{ width: "100%", height: "100%", marginTop: 24 }}
         />
       </View>
@@ -29,9 +32,13 @@ export default class App extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1, alignItems: "center" }}>
         <View
-          style={{ top: 128, alignItems: "center", justifyContent: "center" }}
+          style={{
+            marginTop: "30%",
+            alignItems: "center",
+            justifyContent: "center"
+          }}
         >
           <FastImage
             source={logo}
@@ -42,9 +49,9 @@ export default class App extends Component {
         <VideoModal
           source={source}
           title="Test Video Stream"
-          customVideoComponent={this.renderWebview()}
+          // customVideoComponent={this.renderWebview()}
         />
-      </View>
+      </SafeAreaView>
     );
   }
 }
